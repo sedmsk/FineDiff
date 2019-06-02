@@ -34,5 +34,15 @@
         "psr-4": {
             "FineDiffTests\\": "tests/"
         }
+    },
+    "scripts": {
+        "tests": [
+            "phpunit"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.3.x-dev"
+        }
     }
 }
