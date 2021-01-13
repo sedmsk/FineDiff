@@ -25,9 +25,10 @@ interface ParserInterface
     /**
      * Creates an instance.
      *
-     * @param \CogPowered\FineDiff\Granularity\GranularityInterface
+     * @param \CogPowered\FineDiff\Granularity\GranularityInterface $granularity
+     * @param bool $separateDelimiters Separate delimiters from fragments
      */
-    public function __construct(GranularityInterface $granularity);
+    public function __construct(GranularityInterface $granularity, $separateDelimiters = false);
 
     /**
      * Granularity the parser is working with.
@@ -72,6 +73,22 @@ interface ParserInterface
      * @return void
      */
     public function setOperationCodes(OperationCodesInterface $operation_codes);
+
+    /**
+     * Get the separate delimiters from fragments option
+     *
+     * @return bool
+     */
+    public function getSeparateDelimiters();
+
+    /**
+     * Set the separate delimiters from fragments option
+     *
+     * @param bool $separateDelimiters
+     *
+     * @return void
+     */
+    public function setSeparateDelimiters($separateDelimiters);
 
     /**
      * Generates the operation codes needed to transform one string to another.
