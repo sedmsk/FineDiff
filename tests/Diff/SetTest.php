@@ -66,4 +66,18 @@ class SetTest extends TestCase
         $granularity = $this->diff->getGranularity();
         $granularity->fooBar();
     }
+
+    public function testDefaultSeparateDelimiters()
+    {
+        $this->assertFalse($this->diff->getSeparateDelimiters());
+    }
+
+    public function testParseSetSeparateDelimiters()
+    {
+        $this->diff->setSeparateDelimiters(true);
+        $this->assertTrue($this->diff->getSeparateDelimiters());
+
+        $this->diff->setSeparateDelimiters(false);
+        $this->assertFalse($this->diff->getSeparateDelimiters());
+    }
 }

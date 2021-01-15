@@ -66,11 +66,17 @@ class Parser implements ParserInterface
     protected $edits = array();
 
     /**
+     * @var bool Separate delimiters from fragments
+     */
+    protected $separateDelimiters;
+
+    /**
      * @inheritdoc
      */
-    public function __construct(GranularityInterface $granularity)
+    public function __construct(GranularityInterface $granularity, $separateDelimiters = false)
     {
         $this->granularity = $granularity;
+        $this->separateDelimiters = $separateDelimiters;
 
         // Set default operation codes generator
         $this->operation_codes = new OperationCodes;
@@ -90,6 +96,22 @@ class Parser implements ParserInterface
     public function setGranularity(GranularityInterface $granularity)
     {
         $this->granularity = $granularity;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSeparateDelimiters()
+    {
+        return $this->separateDelimiters;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setSeparateDelimiters($separateDelimiters)
+    {
+        $this->separateDelimiters = $separateDelimiters;
     }
 
     /**
@@ -463,15 +485,33 @@ class Parser implements ParserInterface
         $end       = 0;
 
         while (true) {
-            $end += strcspn($text, $delimiters, $end);
-            $end += strspn($text, $delimiters, $end);
+            if ($this->separateDelimiters) {
+                // add word
+                $end += strcspn($text, $delimiters, $end);
+                if ($end !== $start) {
+                    $fragments[$start] = substr($text, $start, $end - $start);
+                    $start = $end;
+                }
 
-            if ($end === $start) {
-                break;
+                // add delimiters
+                $end += strspn($text, $delimiters, $end);
+                if ($end === $start) {
+                    break;
+                }
+
+                $fragments[$start] = substr($text, $start, $end - $start);
+                $start = $end;
+            } else {
+                $end += strcspn($text, $delimiters, $end);
+                $end += strspn($text, $delimiters, $end);
+
+                if ($end === $start) {
+                    break;
+                }
+
+                $fragments[$start] = substr($text, $start, $end - $start);
+                $start = $end;
             }
-
-            $fragments[$start] = substr($text, $start, $end - $start);
-            $start             = $end;
         }
 
         $fragments[$start] = '';

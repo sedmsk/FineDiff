@@ -68,4 +68,18 @@ class ParserTest extends TestCase
         
         $this->assertTrue(true);
     }
+
+    public function testDefaultSeparateDelimiters()
+    {
+        $this->assertFalse($this->parser->getSeparateDelimiters());
+    }
+
+    public function testParseSetSeparateDelimiters()
+    {
+        $this->parser->setSeparateDelimiters(true);
+        $this->assertTrue($this->parser->getSeparateDelimiters());
+
+        $this->parser->setSeparateDelimiters(false);
+        $this->assertFalse($this->parser->getSeparateDelimiters());
+    }
 }

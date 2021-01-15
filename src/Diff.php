@@ -18,12 +18,12 @@
 
 namespace CogPowered\FineDiff;
 
-use CogPowered\FineDiff\Granularity\GranularityInterface;
-use CogPowered\FineDiff\Render\RendererInterface;
-use CogPowered\FineDiff\Parser\ParserInterface;
 use CogPowered\FineDiff\Granularity\Character;
-use CogPowered\FineDiff\Render\Html;
+use CogPowered\FineDiff\Granularity\GranularityInterface;
 use CogPowered\FineDiff\Parser\Parser;
+use CogPowered\FineDiff\Parser\ParserInterface;
+use CogPowered\FineDiff\Render\Html;
+use CogPowered\FineDiff\Render\RendererInterface;
 
 /**
  * Diff class.
@@ -48,11 +48,12 @@ class Diff
     /**
      * Instantiate a new instance of Diff.
      *
-     * @param \CogPowered\FineDiff\Granularity\GranularityInterface $granularity    Level of diff.
-     * @param \CogPowered\FineDiff\Render\RendererInterface         $renderer       Diff renderer.
-     * @param \CogPowered\FineDiff\Parser\ParserInterface           $parser         Parser used to generate operation codes.
+     * @param \CogPowered\FineDiff\Granularity\GranularityInterface $granularity Level of diff.
+     * @param \CogPowered\FineDiff\Render\RendererInterface $renderer Diff renderer.
+     * @param \CogPowered\FineDiff\Parser\ParserInterface $parser Parser used to generate operation codes.
+     * @param bool $separateDelimiters Separate delimiters from fragments
      */
-    public function __construct(GranularityInterface $granularity = null, RendererInterface $renderer = null, ParserInterface $parser = null)
+    public function __construct(GranularityInterface $granularity = null, RendererInterface $renderer = null, ParserInterface $parser = null, $separateDelimiters = false)
     {
         // Set some sensible defaults
 
@@ -63,7 +64,7 @@ class Diff
         $this->renderer = ($renderer !== null) ? $renderer : new Html;
 
         // Set the diff parser
-        $this->parser = ($parser !== null) ? $parser : new Parser($this->granularity);
+        $this->parser = ($parser !== null) ? $parser : new Parser($this->granularity, $separateDelimiters);
     }
 
     /**
@@ -85,6 +86,28 @@ class Diff
     public function setGranularity(GranularityInterface $granularity)
     {
         $this->parser->setGranularity($granularity);
+    }
+
+    /**
+     * Get the separate delimiters from fragments option
+     *
+     * @return bool
+     */
+    public function getSeparateDelimiters()
+    {
+        return $this->parser->getSeparateDelimiters();
+    }
+
+    /**
+     * Set the separate delimiters from fragments option
+     *
+     * @param bool $separateDelimiters
+     *
+     * @return void
+     */
+    public function setSeparateDelimiters($separateDelimiters)
+    {
+        $this->parser->setSeparateDelimiters($separateDelimiters);
     }
 
     /**
