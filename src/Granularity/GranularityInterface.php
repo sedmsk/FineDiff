@@ -23,17 +23,17 @@ use Countable;
 
 interface GranularityInterface extends ArrayAccess, Countable
 {
-    public function offsetExists($offset);
-    public function offsetGet($offset);
-    public function offsetSet($offset, $value);
-    public function offsetUnset($offset);
+    public function offsetExists($offset): bool;
+    public function offsetGet($offset): ?string;
+    public function offsetSet($offset, $value): void;
+    public function offsetUnset($offset): void;
 
     /**
      * Get the delimiters that make up the granularity.
      *
      * @return array
      */
-    public function getDelimiters();
+    public function getDelimiters(): array;
 
     /**
      * Set the delimiters that make up the granularity.
@@ -41,5 +41,5 @@ interface GranularityInterface extends ArrayAccess, Countable
      * @param array $delimiters
      * @return void
      */
-    public function setDelimiters(array $delimiters);
+    public function setDelimiters(array $delimiters): void;
 }
