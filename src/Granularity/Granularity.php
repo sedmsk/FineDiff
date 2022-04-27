@@ -31,7 +31,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->delimiters[$offset]);
     }
@@ -39,7 +39,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return isset($this->delimiters[$offset]) ? $this->delimiters[$offset] : null;
     }
@@ -47,7 +47,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
             $this->delimiters[] = $value;
@@ -59,7 +59,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->delimiters[$offset]);
     }
@@ -69,7 +69,7 @@ abstract class Granularity implements GranularityInterface
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->delimiters);
     }
@@ -77,7 +77,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function getDelimiters()
+    public function getDelimiters(): array
     {
         return $this->delimiters;
     }
@@ -85,7 +85,7 @@ abstract class Granularity implements GranularityInterface
     /**
      * @inheritdoc
      */
-    public function setDelimiters(array $delimiters)
+    public function setDelimiters(array $delimiters): void
     {
         $this->delimiters = $delimiters;
     }
